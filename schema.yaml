@@ -1,0 +1,105 @@
+groups:
+    hubs:
+        part:
+            bk_dtype: int
+            links: {}
+            satellites:
+                part: {}
+        supplier:
+            bk_dtype: int
+            links:
+                nation: {}
+            satellites:
+                supplier: {}
+        orders:
+            bk_dtype: int
+            links: {}
+            satellites: {}
+        customer:
+            bk_dtype: int
+            links:
+                nation: {}
+            satellites:
+                customer: {}
+        nation:
+            bk_dtype: int
+            links:
+                region: {}
+            satellites:
+                nation: {}
+        region:
+            bk_dtype: int
+            links: {}
+            satellites:
+                region: {}
+    links:
+        part_supplier:
+            
+            source: partsupp
+                
+        part_supplier_orders:
+            
+            source: lineitem
+        customer_orders:
+            
+            source: orders
+sources:
+    tables:
+        part:
+            columns:
+                - partkey:
+                    bk_for: part
+                
+        supplier:
+            columns:
+                - suppkey:
+                    bk_for: supplier
+                - nationkey:
+                    bk_for: nation
+                
+        partsupp:
+            columns:
+                - partkey:
+                    bk_for: part
+                - suppkey:
+                    bk_for: supplier
+                
+        lineitem:
+            columns:
+                
+                - partkey:
+                    bk_for: part
+                - suppkey:
+                    bk_for: supplier
+                - orderkey:
+                    bk_for: orders
+                
+        orders:
+            columns:
+                
+                - custkey:
+                    bk_for: customer
+                - orderkey:
+                    bk_for: orders
+                
+        customer:
+            columns:
+                - custkey:
+                    bk_for: customer
+                
+                - nationkey:
+                    bk_for: nation
+                
+        nation:
+            columns:
+                - nationkey:
+                    bk_for: nation
+               
+                - regionkey:
+                    bk_for: region
+               
+        region:
+            columns:
+                - regionkey:
+                    bk_for: region
+                
