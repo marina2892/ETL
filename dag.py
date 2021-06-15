@@ -85,9 +85,6 @@ with DAG(
             sal[source_table] >> task
             
             
-    
-    
-    
     links_h = {
         l_name: {
             table_name: DdsLHOperator(
@@ -97,7 +94,7 @@ with DAG(
                 config=dict(
                     link_name = l_name,
                     bk_columns = [key for a in cols['columns'] for key, value in a.items() ],
-                    source_table=table_name
+                    source_table=table_name,
                 )
             )
             for table_name, cols in YAML_DATA['sources']['tables'].items()
@@ -114,7 +111,8 @@ with DAG(
             hub_names_list = hub_names.split('_')
             for a in hub_names_list:
                 hubs[a][source_table] >> task
-                
+               
+            
     links = {
         (l_hub_name, r_hub_name): {
             table_name: DdsLOperator(
@@ -187,7 +185,7 @@ with DAG(
             )
             
             for table, cols in YAML_DATA['sources']['tables'].items()
-            if table == info['source_for_satellite']
+            if table == info['source']
            
             
         }
@@ -198,7 +196,7 @@ with DAG(
     for link, info in satellites_l.items():
         for source_table, task in info.items():
             links_h[link][source_table] >> task
-
+    
 
     
     

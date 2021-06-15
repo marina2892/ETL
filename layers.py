@@ -152,7 +152,7 @@ class DdsLHOperator(DataFlowBaseOperator): #sal -> dds for links
         )
         self.config = dict(
             self.defaults,
-           target_table=f"l_{config['link_name']}"
+           target_table=f"l_{config['link_name']}",
             **config
         )
         self.pg_conn_str = pg_conn_str
@@ -173,10 +173,12 @@ class DdsLHOperator(DataFlowBaseOperator): #sal -> dds for links
                 )
                 cols = self.config['link_name'].split('_')
                 cols_id = ",".join([f"{a}_id" for a in cols])
-                bk_cols = ",".join(self.config['bk_columns'])
+                bk_cols = ",".join([f"{a}_bk" for a in cols])
                 
-                
-                list_sql_val = [f" join dds.h_{col} r{count} on s.{self.config['bk_columns'][count]} = r{count}.{col}_bk " for count, col in cols]
+                list_sql_val = []
+                for count, col in enumerate(cols):
+                    list_sql_val.append(f" join dds.h_{col} r{count} on s.{self.config['bk_columns'][count]} = r{count}.{col}_bk " )
+                    
                 sql_val = " ".join(list_sql_val)
                 self.config.update(
                     cols_id=cols_id,
@@ -259,8 +261,6 @@ class DdsLOperator(DataFlowBaseOperator): #sal -> dds for links
                 insert into {target_schema}.{target_table} ({l_hub_name}_id, {r_hub_name}_id, launch_id)
                 select {l_hub_name}_id
                      , {r_hub_name}_id
-                     , {l_bk_column}
-                     , {r_bk_column}
                      , {job_id}
                   from x;
                 '''.format(**self.config)
@@ -359,7 +359,7 @@ class DdsSLOperator(DataFlowBaseOperator): #sal -> dds for sattelites
 
     @apply_defaults
     def __init__(self, config, pg_conn_str, *args, **kwargs):
-        super(DdsSOperator, self).__init__(
+        super(DdsSLOperator, self).__init__(
             config=config,
             pg_conn_str=pg_conn_str,
             *args,
