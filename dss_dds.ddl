@@ -90,9 +90,9 @@ create table dds.s_customer (
     customer_id INTEGER,
     name VARCHAR(25),
 	address VARCHAR(40),
-	phone CHAR(15),
+	phone VARCHAR(255),
 	acctbal DECIMAL(15,2),
-	mktsegment CHAR(10),
+	mktsegment VARCHAR(255),
 	comment VARCHAR(117),
     launch_id INTEGER,
     effective_dttm timestamp default now()
@@ -102,11 +102,11 @@ create table dds.s_customer (
 create table dds.s_part (
     part_id INTEGER,
     name VARCHAR(55),
-	mfgr CHAR(25),
-	brand  CHAR(10),
+	mfgr VARCHAR(255),
+	brand  VARCHAR(255),
 	type        VARCHAR(25),
 	size        INTEGER,
-	container   CHAR(10),
+	container   VARCHAR(255),
 	retailprice DECIMAL(15,2),
 	comment     VARCHAR(23),
     launch_id INTEGER,
@@ -116,9 +116,9 @@ create table dds.s_part (
 
 create table dds.s_supplier (
     supplier_id INTEGER,
-    name        CHAR(25),
+    name        VARCHAR(255),
 	address     VARCHAR(40),
-	phone       CHAR(15),
+	phone       VARCHAR(255),
 	acctbal     DECIMAL(15,2),
 	comment     VARCHAR(101),
     launch_id INTEGER,
@@ -128,7 +128,7 @@ create table dds.s_supplier (
 
 create table dds.s_nation (
     nation_id INTEGER,
-    name       CHAR(25),
+    name       VARCHAR(255),
 	comment    VARCHAR(152),
     launch_id INTEGER,
     effective_dttm timestamp default now()
@@ -136,7 +136,7 @@ create table dds.s_nation (
 
 create table dds.s_region (
     region_id INTEGER,
-    name       CHAR(25),
+    name       VARCHAR(255),
 	comment    VARCHAR(152),
     launch_id INTEGER,
     effective_dttm timestamp default now()
@@ -166,8 +166,8 @@ create table dds.l_s_part_supplier_orders (
 	shipdate    DATE,
 	commitdate  DATE,
 	receiptdate DATE,
-	shipinstruct CHAR(25),
-	shipmode     CHAR(10),
+	shipinstruct VARCHAR(255),
+	shipmode     VARCHAR(255),
 	comment      VARCHAR(44),
 	launch_id INTEGER,
     effective_dttm timestamp default now()
@@ -178,8 +178,8 @@ create table dds.l_s_customer_orders (
 	orderstatus    CHAR(1),
 	totalprice     DECIMAL(15,2),
 	orderdate      DATE,
-	orderpriority  CHAR(15),
-	clerk          CHAR(15),
+	orderpriority  VARCHAR(255)),
+	clerk          VARCHAR(255),
 	shippriority   INTEGER,
 	comment       VARCHAR(79),
 	launch_id INTEGER,
